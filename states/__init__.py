@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from states.game import Game
 from states.menu import Menu
 from states.settings import Settings
