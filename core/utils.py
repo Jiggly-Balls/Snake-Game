@@ -161,7 +161,11 @@ class Button:
             self.window, self.button_style.fill_colour, self.button_rect, 0, 5
         )
         pygame.draw.rect(
-            self.window, self.button_style.outline_colour, self.button_rect, 2, 5
+            self.window,
+            self.button_style.outline_colour,
+            self.button_rect,
+            2,
+            5,
         )
         self.button_text.render(self.text)
 
@@ -240,16 +244,19 @@ class Slider:
             ):
                 self.clamp = True
                 Slider.target = self
-                self.slider_rect.centerx = max(min(self.max_pos, pos[0]), self.min_pos)
+                self.slider_rect.centerx = max(
+                    min(self.max_pos, pos[0]), self.min_pos
+                )
                 self.value = round(
-                    (self.slider_rect.centerx / self.width) - self.additional, 2
+                    (self.slider_rect.centerx / self.width) - self.additional,
+                    2,
                 )
         else:
             self.clamp = False
             Slider.target = None
 
 
-def draw_grid(window: pygame.Surface):
+def draw_grid(window: pygame.Surface) -> None:
     for x in range(0, SCREEN_WIDTH, BLOCK_SIZE):
         for y in range(0, SCREEN_HEIGHT, BLOCK_SIZE):
             line = pygame.Rect(x, y, BLOCK_SIZE, BLOCK_SIZE)
