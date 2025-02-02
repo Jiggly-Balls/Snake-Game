@@ -1,20 +1,32 @@
 import pygame
 
 from pygame import QUIT, MOUSEBUTTONDOWN, MOUSEBUTTONUP
+from game_state import State
+from game_state.errors import ExitGameError
 
-from states import State
-from core.utils import MusicVol, Box, Text, Button, Slider, draw_grid, save_settings
-from core.errors import ExitGameError
-from core.const import SCREEN_WIDTH, SCREEN_HEIGHT, SLIDER_IMAGE_PATH, SETTINGS_PATH
+from core.utils import (
+    MusicVol,
+    Box,
+    Text,
+    Button,
+    Slider,
+    draw_grid,
+    save_settings,
+)
+from core.const import (
+    SCREEN_WIDTH,
+    SCREEN_HEIGHT,
+    SLIDER_IMAGE_PATH,
+    SETTINGS_PATH,
+)
 from core.preset import blue_text_style, blue_button_style
 
 
 class Settings(State):
-    def __init__(self, *args, volume: MusicVol) -> None:
-        super().__init__(*args)
+    def __init__(self, volume: MusicVol) -> None:
         self.volume = volume
 
-        self.fps = 60
+        self.fps = 30
 
         self.slider_img = pygame.image.load(SLIDER_IMAGE_PATH).convert()
         # self.slider_img = pygame.transform.scale(self.slider_img, (20, 20))
@@ -60,7 +72,6 @@ class Settings(State):
         )
 
     def run(self) -> None:
-
         music_slider = Slider(
             self.window,
             self.slider_img,
@@ -111,7 +122,7 @@ class Settings(State):
                         save_settings(SETTINGS_PATH, self.volume)
 
                         self.manager.change_state("Menu")
-                        self.manager.exit_current_state()
+                        self.manager.update_state()
 
                 elif event.type == MOUSEBUTTONUP and event.button == 1:
                     Slider.button_down = False

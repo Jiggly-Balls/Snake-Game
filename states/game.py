@@ -1,18 +1,38 @@
 import pygame
 
 from pygame import QUIT, KEYDOWN, MOUSEBUTTONDOWN
+from game_state import State
+from game_state.errors import ExitGameError
 
-from states import State
-from core.const import *
-from core.entities import *
-from core.utils import MusicVol, Text, Button, load_highscore, save_highscore, draw_grid
-from core.errors import ExitGameError
+from core.const import (
+    BASE_FPS,
+    BG_MUSIC_PATH,
+    BLOCK_SIZE,
+    DEATH_SFX_PATH,
+    EAT_SFX_PATH,
+    HIGHSCORE_PATH,
+    KEY_DOWN,
+    KEY_LEFT,
+    KEY_RIGHT,
+    KEY_UP,
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    SNAKE_COLOUR,
+)
+from core.entities import Apple, Snake
+from core.utils import (
+    draw_grid,
+    load_highscore,
+    save_highscore,
+    Button,
+    MusicVol,
+    Text,
+)
 from core.preset import blue_text_style, red_text_style, red_button_style
 
 
 class Game(State):
-    def __init__(self, *args, volume: MusicVol) -> None:
-        super().__init__(*args)
+    def __init__(self, volume: MusicVol) -> None:
         self.volume = volume
 
         self.bg_music = pygame.mixer.Sound(BG_MUSIC_PATH)
@@ -25,10 +45,16 @@ class Game(State):
             self.window, death_style, 30, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
         )
         self.score_text = Text(
-            self.window, blue_text_style, 100, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 10)
+            self.window,
+            blue_text_style,
+            100,
+            (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 10),
         )
         self.highscore_text = Text(
-            self.window, blue_text_style, 50, (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 1.1)
+            self.window,
+            blue_text_style,
+            50,
+            (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 1.1),
         )
 
         self.restart_button = Button(
@@ -49,7 +75,6 @@ class Game(State):
         )
 
     def run(self) -> None:
-
         snake = Snake()
         apple = Apple.spawn(snake=snake)
         self.bg_music.set_volume(self.volume.bg_vol)
@@ -94,20 +119,26 @@ class Game(State):
                             snake.y_dir = snake.y_dir or 1
                             move = True
 
-                if snake.dead and event.type == MOUSEBUTTONDOWN and event.button == 1:
+                if (
+                    snake.dead
+                    and event.type == MOUSEBUTTONDOWN
+                    and event.button == 1
+                ):
                     if self.restart_button.click():
-                        self.manager.exit_current_state()
+                        self.manager.update_state()
                         # If you use this method before manager.change_state, it will reset the current state.
 
                     elif self.menu_button.click():
                         self.manager.change_state("Menu")
-                        self.manager.exit_current_state()
+                        self.manager.update_state()
 
             if snake.head.x == apple.x and snake.head.y == apple.y:
                 self.eat_sound.play()
                 last_body = snake.body[-1]
                 snake.body.append(
-                    pygame.Rect(last_body.x, last_body.y, BLOCK_SIZE, BLOCK_SIZE)
+                    pygame.Rect(
+                        last_body.x, last_body.y, BLOCK_SIZE, BLOCK_SIZE
+                    )
                 )
                 apple = Apple.spawn(snake=snake)
                 if len(snake.body) % 4 == 0:
