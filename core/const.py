@@ -18,4 +18,3 @@ KEY_LEFT: Tuple[int, int] = (pygame.K_a, pygame.K_LEFT)
 KEY_RIGHT: Tuple[int, int] = (pygame.K_d, pygame.K_RIGHT)
 KEY_UP: Tuple[int, int] = (pygame.K_w, pygame.K_UP)
 KEY_DOWN: Tuple[int, int] = (pygame.K_s, pygame.K_DOWN)
-KEY_ALL: Tuple[int, ...] = KEY_LEFT + KEY_RIGHT + KEY_UP + KEY_DOWN
