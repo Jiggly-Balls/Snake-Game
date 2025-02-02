@@ -39,7 +39,7 @@ class SnakeGame:
 
 if __name__ == "__main__":
     try:
-        sanke_game = SnakeGame()
-        sanke_game.run()
+        snake_game = SnakeGame()
+        snake_game.run()
     except ExitGameError:
         pygame.quit()

@@ -1,3 +1,7 @@
+"""
+This file contains classes related to screen management / screen changing.
+"""
+
 from __future__ import annotations
 
 import pygame
