@@ -1,8 +1,5 @@
 # Snake-Game
-This is game is inspired from the classic 1998 nokia snake game.
-
-The player controls a green snake to eat apples randomly spawned in the screen's grid.
-If the snake hits the edges or it's tail, the snake dies.
+Inspired by the classic 1998 Nokia Snake game, this modern take lets players control a green snake as it slithers around a grid-based screen, hunting for randomly spawning apples. Each apple eaten makes the snake longer — and the challenge greater. Avoid crashing into the screen’s edges or your own tail, or it’s game over!
 
 ## Controls-
 - W / Up Arrow : Move up
